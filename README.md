@@ -7,8 +7,8 @@
 
 ### Скриншоты работы
 
-![Интерфейс системы](screenshots/yarag.png)
-![Пример ответа и источников](screenshots/alice_review.png)
+![Интерфейс системы](./screenshots/yarag.png)
+![Пример ответа и источников](./screenshots/alice_review.png)
 
 #### Работа Чанкера (`src/domain/services/chunker.py`)
 Тут юзаем принцип **скользящего окна** (Sliding Window), чтоб контекст не терялся.  
