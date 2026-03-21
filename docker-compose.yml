@@ -1,0 +1,24 @@
+services:
+  backend:
+    build: ./backend
+    container_name: yandex-rag-backend
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - YANDEX_API_KEY=
+      - YANDEX_FOLDER_ID=
+      - XMLRIVER_USER_ID=
+      - XMLRIVER_KEY=
+
+    volumes:
+      - ./backend:/app
+
+  frontend:
+    build: ./frontend
+    container_name: yandex-rag-frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend

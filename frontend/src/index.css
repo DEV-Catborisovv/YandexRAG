@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #111111; /* Softer dark for Yandex feel */
+  --color-card: #1a1a1a;
+  --color-border-custom: #2a2a2a;
+  --color-accent: #f43f5e; /* Red Alice accent */
+  
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+/* Yandex Style Badges */
+.source-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #2a2a2a;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #ccc;
+  border: 1px solid #333;
+  margin-left: 4px;
+  margin-bottom: 4px;
+  transition: all 0.2s ease;
+}
+
+.source-badge:hover {
+  background: #3a3a3a;
+  border-color: #444;
+}
+
+.alice-glow {
+  box-shadow: 0 0 20px rgba(244, 63, 94, 0.2);
+}
+
+/* Custom scrollbar for a premium feel */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3a3a3a;
+}
+
+/* Smooth transitions for search bar move */
+.search-transition {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* AI Message Container Styles */
+.prose {
+  color: #d1d5db;
+  line-height: 1.6;
+}
+.prose h1, .prose h2, .prose h3 {
+  color: #ffffff;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.prose p {
+  margin-bottom: 1rem;
+}
+.prose code {
+  background: #1f1f1f;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+.prose pre {
+  background: #000000;
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  border: 1px solid #1f1f1f;
+}

@@ -1,0 +1,11 @@
+requests
+python-dotenv
+yandex-cloud-ml-sdk
+beautifulsoup4
+lxml
+pydantic
+fastapi
+uvicorn
+httpx
+numpy
+newspaper4k
