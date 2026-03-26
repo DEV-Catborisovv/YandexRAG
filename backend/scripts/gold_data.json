@@ -1,0 +1,201 @@
+[
+    {
+        "query": "куда сходить в Екатеринбурге?",
+        "expected_urls": [
+            "https://dzen.ru/",
+            "https://afisha.yandex.ru/",
+            "https://aviasales.ru/",
+            "https://sports.ru/",
+            "https://lenta.ru/",
+            "https://tripadvisor.ru/",
+            "https://experience.tripster.ru/",
+            "https://travel.yandex.ru/",
+            "https://yandex.ru/",
+            "https://2gis.ru/",
+            "https://kp.ru/",
+            "https://ru.wikipedia.org/",
+            "https://tourister.ru/",
+            "https://zoon.ru/",
+            "https://yapokupayu.ru/",
+            "https://gorpom.ru/",
+            "https://ekb.kassir.ru/"
+        ],
+        "expected_answer": "В Екатеринбурге множество мест для посещения: от исторических скверов (Плотинка) до современных арт-пространств. Для поиска актуальных событий рекомендуется использовать Afisha Yandex, 2GIS и специализированные гиды на Dzen и KP.ru. Основные категории включают театры (Оперный, Коляда-театр), музеи (Ельцин Центр, Музей ИЗО) и парки (ЦПКиО им. Маяковского)."
+    },
+    {
+        "query": "рейтинг стоматологий екатеринбурга 2024",
+        "expected_urls": [
+            "https://www.e1.ru/text/health/2024/12/20/74900651/",
+            "https://rating.startsmile.ru/2023/ekaterinburg.html",
+            "https://ura.news/news/1052831381",
+            "https://ekb.plus.rbc.ru/partners/65b72f757a8aa987f3a063bd",
+            "https://like.doctor/ekaterinburg/kliniki/stomatologiya/top10/2024"
+        ],
+        "expected_answer": "По данным на 20 декабря 2024 года, в рейтинге стоматологий Екатеринбурга по версии горожан лидируют «Эттика» и «Эстетик арт», на последнем месте — «Манхэттен». В список вошли следующие клиники: «Эстетик арт», «Эттика», Европейский стоматологический центр, «Визави»."
+    },
+    {
+        "query": "лучшие отели казани в центре",
+        "expected_urls": [
+            "https://yandex.ru/maps/discovery/podborka_gostinica_kazan-43/",
+            "https://www.kp.ru/russia/kazan/luchshie-oteli-kazani/",
+            "https://101hotels.com/main/cities/kazan/gostinitsa_rivera.html",
+            "https://yandex.ru/maps/org/mirazh/1022422575/",
+            "https://travel.yandex.ru/hotels/kazan/cort-inn-kazan-kreml/",
+            "https://nogay.rt.center/",
+            "https://mirage-hotel.ru/",
+            "https://kzn-cortinn.ru/",
+            "https://www.tripadvisor.ru/HotelsList-Kazan-zfp34291859.html"
+        ],
+        "expected_answer": "Среди отелей Казани в центре города есть несколько вариантов, которые отмечают как удобные для проживания и близости к достопримечательностям. Среди них — отели «Ривьера», «Ногай», «Мираж» и Cort Inn Kazan Kremlin."
+    },
+    {
+        "query": "услуги юристов по недвижимости ростов-на-дону",
+        "expected_urls": [
+            "https://maps.yandex.ru/",
+            "https://avito.ru/",
+            "https://uslugi.yandex.ru/",
+            "https://zoon.ru/",
+            "https://profi.ru/"
+        ],
+        "expected_answer": "В Ростове-на-Дону услуги по недвижимости предлагают компании «Личный Юрист», «Юридический офис В. О. Мачульского», «Право Роста». Также специалистов можно найти на Яндекс Услугах, Авито и Профи."
+    },
+    {
+        "query": "где встретить рассвет на алтае",
+        "expected_urls": [
+            "https://vk.com/wall-192272649_859",
+            "https://dzen.ru/",
+            "https://warhead.su/2025/10/22/6-volshebnyh-mest-respubliki-altay-gде-mozhno-vstretit-rassvet-mechty",
+            "https://altayvillage.com/glampings/glempingi-na-estyube-voskhod-i-zakat/",
+            "https://www.tripadvisor.ru/ShowUserReviews-g4590757-d8833415-r819804861-Lake_Teletskoye-Artybash_Republic_of_Altai_Siberian_District.html"
+        ],
+        "expected_answer": "Популярные точки для встречи рассвета на Алтае: скала Чертов палец (озеро Ая), гора Менжелик (Чемальский район), Каменные ворота Айри-Таш (Чуйский тракт)."
+    },
+    {
+        "query": "лучшие суши в москве с доставкой",
+        "expected_urls": [
+            "https://yandex.ru/maps/discovery/podborka_eda_dostavka-sushi_moskva-213/",
+            "https://yandex.ru/maps/org/gud_sushi/116565764623/",
+            "https://ent.osushi.su/",
+            "https://zoon.ru/msk/utility_service/sluzhba_dostavki_yakitoriya/reviews/",
+            "https://chibbis.ru/msk/restaurant/tanuki/menu",
+            "https://otzovik.com/review_5306730.html"
+        ]
+    },
+    {
+        "query": "где купить квартиру в сочи у моря",
+        "expected_urls": [
+            "https://sochi.cian.ru/kupit-kvartiru-u-morya/",
+            "https://realty.yandex.ru/sochi/kupit/kvartira/ryadom-s-morem/",
+            "https://grc-sochi.ru/offers/novostroyki-v-sochi/near-sea/",
+            "https://www.avito.ru/sochi/kvartiry/prodam-ASgBAgICAUSSA8YQ?q=рядом+с+морем",
+            "https://sochi.domclick.ru/pokupka/kvartiry/adler-m-n/u-morya",
+            "https://www.vincent-realty.ru/offers/novostroyki-v-sochi/u-morya/",
+            "https://www.elitesochi.com/catalog/novostroyki/sochi-zhilye-kompleksy-morja/",
+            "https://mirkvartir.ru/Краснодарский+край/Сочи/У+моря/"
+        ]
+    },
+    {
+        "query": "ремонт стиральных машин спб недорого",
+        "expected_urls": [
+            "https://yandex.ru/maps/2/saint-petersburg/search/Ремонт слотиролок/",
+            "https://profi.ru/geo-spb/remont/byttehnika/remont-bytovoi-tehniki/remont-stiralnyh-mashin/",
+            "https://uslugi.yandex.ru/2-saint-petersburg/category?text=Недорогой ремонт стиральных на дому",
+            "https://zoon.ru/spb/repair/type/stiralnyh_mashin/",
+            "https://markakachestva.ru/amenities/7845-luchshie-servisy-remonta-stiralnyh-mashin-v-spb-rejting.html"
+        ]
+    },
+    {
+        "query": "прокат авто в калининграде отзывы",
+        "expected_urls": [
+            "https://2gis.ru/kaliningrad/firm/70000001046879993/tab/reviews",
+            "https://lite-rent.ru/reviews/",
+            "https://vc.ru/travel/1541254-arenda-avto-v-aeroportu-kaliningrada"
+        ]
+    },
+    {
+        "query": "частные детские сады новосибирска цены",
+        "expected_urls": [
+            "https://www.kp.ru/russia/novosibirsk/chastnye-detskie-sady/",
+            "https://novosibirsk.skidkom.ru/uslugi/detskie-sady/"
+        ]
+    },
+    {
+        "query": "курсы программирования на python москва",
+        "expected_urls": [
+            "https://www.specialist.ru/dictionary/definition/python",
+            "https://do.bmstu.ru/napravleniya-obucheniya/programmirovanie-i-it/programmirovanie-na-python-onlayn/",
+            "https://msk.top-academy.ru/education/python-for-children"
+        ]
+    },
+    {
+        "query": "лучшие ветеринарные клиники краснодара",
+        "expected_urls": [
+            "https://yandex.ru/maps/35/krasnodar/category/veterinary_clinic/184107216/filter/best_rating/",
+            "https://www.yell.ru/krasnodar/top/veterinarnye-kliniki/",
+            "https://zoon.ru/krasnodar/vet/reviews/"
+        ]
+    },
+    {
+        "query": "где заказать торт в тюмени",
+        "expected_urls": [
+            "https://venavioletta.ru/",
+            "https://2gis.ru/tyumen/search/Кондитерские изделия/rubricId/363",
+            "https://yandex.ru/maps/55/tyumen/category/cake_orders/184108275/"
+        ]
+    },
+    {
+        "query": "дизайн интерьера квартир в воронеже",
+        "expected_urls": [
+            "https://uslugi.yandex.ru/193-voronezh/category/dizajn-interera-328",
+            "https://avito.ru/voronezh/predlozheniya_uslug/dizayn_interera-ASgBAgICAkS8A6isAg",
+            "https://profi.ru/voronezh/dizajn-interera/"
+        ]
+    },
+    {
+        "query": "салоны красоты нижний новгород рейтинг",
+        "expected_urls": [
+            "https://maps.yandex.ru/47/nizhny-novgorod/category/beauty_salon/184105814/",
+            "https://zoon.ru/nn/beauty/",
+            "https://dzen.ru/a/Z..."
+        ]
+    },
+    {
+        "query": "где погулять в уфе с детьми",
+        "expected_urls": [
+            "https://travel.yandex.ru/journal/ufa-with-kids/",
+            "https://tourister.ru/world/europe/russia/city/ufa/children",
+            "https://kp.ru/russia/ufa/gde-pogulyat-s-rebenkom/"
+        ]
+    },
+    {
+        "query": "автошколы перми стоимость обучения",
+        "expected_urls": [
+            "https://www.kp.ru/russia/perm/luchshie-avtoshkoly/",
+            "https://www.drom.ru/pdd/avtoshkola/perm/",
+            "https://autocenter59.ru/tseny/"
+        ]
+    },
+    {
+        "query": "услуги клининга в челябинске отзывы",
+        "expected_urls": [
+            "https://profi.ru/geo-chel/reviews/domashnii_personal/klining-kvartir/",
+            "https://uslugi.yandex.ru/56-chelyabinsk/category?text=клининговые компании"
+        ]
+    },
+    {
+        "query": "ремонт ноутбуков нижний новгород",
+        "expected_urls": [
+            "https://yandex.ru/maps/47/nizhny-novgorod/search/Ремонт ноутбуков/",
+            "https://nn.pedant.ru/remont-noutbukov",
+            "https://2gis.ru/nnovgorod/search/ремонт ноутбуков"
+        ]
+    },
+    {
+        "query": "доставка цветов краснодар круглосуточно",
+        "expected_urls": [
+            "https://flowwow.com/krasnodar/tsvety/",
+            "https://krd.bukedo.ru/",
+            "https://krasnodar.megaflowers.ru/"
+        ]
+    }
+]

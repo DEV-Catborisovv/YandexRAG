@@ -17,6 +17,7 @@ export default function App() {
   const [history, setHistory] = useState([]);
   const [currentResponse, setCurrentResponse] = useState(null);
   const [displayedText, setDisplayedText] = useState('');
+  const [status, setStatus] = useState('');
   
   const scrollRef = useRef(null);
 
@@ -26,24 +27,8 @@ export default function App() {
     }
   }, [displayedText, isLoading]);
 
-  useEffect(() => {
-    if (currentResponse?.answer) {
-      let index = 0;
-      const text = currentResponse.answer;
-      setDisplayedText('');
-      
-      const interval = setInterval(() => {
-        if (index < text.length) {
-          setDisplayedText((prev) => prev + text.charAt(index));
-          index++;
-        } else {
-          clearInterval(interval);
-        }
-      }, CONFIG.UI.TYPING_SPEED);
-      
-      return () => clearInterval(interval);
-    }
-  }, [currentResponse]);
+  // Remove the typing effect useEffect as we now have real streaming
+  // (deleted lines 29-46)
 
   const handleSearch = async (e) => {
     if (e) e.preventDefault();
@@ -51,27 +36,69 @@ export default function App() {
 
     setIsSearching(true);
     setIsLoading(true);
-    setCurrentResponse(null);
+    setCurrentResponse({ query, answer: '', sources: [] });
     setDisplayedText('');
+    setStatus('');
 
     try {
-      const response = await axios.post(CONFIG.API.ENDPOINT, {
-        query: query,
-        history: history,
-        scrape_top_n: CONFIG.API.SCRAPE_TOP_N
+      const response = await fetch(CONFIG.API.STREAM_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          query: query,
+          history: history,
+          scrape_top_n: CONFIG.API.SCRAPE_TOP_N,
+          mode: "alice"
+        })
       });
 
-      const { answer, sources } = response.data;
-      setCurrentResponse({ query, answer, sources });
-      setHistory(prev => [...prev, { role: 'user', content: query }, { role: 'assistant', content: answer }]);
+      if (!response.ok) throw new Error('Network response was not ok');
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let fullAnswer = '';
+      let buffer = '';
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop();
+
+        for (const line of lines) {
+          if (!line.trim()) continue;
+          try {
+            const parsed = JSON.parse(line);
+            if (parsed.type === 'status') {
+              setStatus(parsed.data);
+            } else if (parsed.type === 'sources') {
+              setCurrentResponse(prev => ({ ...prev, sources: parsed.data }));
+              setStatus('');
+            } else if (parsed.type === 'token') {
+              fullAnswer += parsed.data;
+              setDisplayedText(fullAnswer);
+              setStatus('');
+            }
+          } catch (e) {
+            console.warn("Error parsing chunk:", e, line);
+          }
+        }
+      }
+
+      setHistory(prev => [
+        ...prev, 
+        { role: 'user', content: query }, 
+        { role: 'assistant', content: fullAnswer }
+      ]);
+      setCurrentResponse(prev => ({ ...prev, answer: fullAnswer }));
       
     } catch (error) {
       console.error("Search failed:", error);
-      setCurrentResponse({
-        query,
-        answer: "Извините, произошла ошибка. Пожалуйста, попробуйте позже.",
-        sources: []
-      });
+      const errorMsg = "Извините, произошла ошибка. Пожалуйста, попробуйте позже.";
+      setCurrentResponse({ query, answer: errorMsg, sources: [] });
+      setDisplayedText(errorMsg);
     } finally {
       setIsLoading(false);
     }
@@ -151,6 +178,39 @@ export default function App() {
 
             {/* Response Content */}
             <div className="space-y-4">
+              {/* Top Sources (Yandex style) */}
+              {currentResponse?.sources?.length > 0 ? (
+                <div className="flex flex-wrap gap-2 mb-4 animate-fade-in">
+                  {currentResponse.sources.map((source, idx) => (
+                    <a 
+                      key={idx} 
+                      href={source.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="source-badge"
+                    >
+                      <div className="w-4 h-4 rounded-sm bg-zinc-700 flex items-center justify-center overflow-hidden">
+                        <img 
+                          src={`https://www.google.com/s2/favicons?domain=${new URL(source.url).hostname}&sz=32`} 
+                          alt="" 
+                          className="w-3 h-3"
+                          onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'block'; }}
+                        />
+                        <Globe className="w-3 h-3 hidden" />
+                      </div>
+                      <span>{new URL(source.url).hostname.replace('www.', '')}</span>
+                    </a>
+                  ))}
+                </div>
+              ) : (
+                isLoading && (
+                  <div className="flex items-center gap-2 text-zinc-500 text-sm mb-4 animate-pulse">
+                    <Globe className="w-4 h-4 animate-spin" />
+                    <span>{status || 'Поиск источников...'}</span>
+                  </div>
+                )
+              )}
+
               {isLoading && !displayedText && (
                 <div className="space-y-4 animate-pulse pt-4">
                   <div className="h-4 bg-zinc-800 rounded w-3/4"></div>
@@ -168,32 +228,6 @@ export default function App() {
                   {displayedText}
                 </ReactMarkdown>
                 
-                {/* Sources contextually or at bottom */}
-                {!isLoading && currentResponse?.sources && (
-                  <div className="flex flex-wrap gap-2 mt-4">
-                    {currentResponse.sources.map((source, idx) => (
-                      <a 
-                        key={idx} 
-                        href={source.url} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="source-badge"
-                      >
-                        <div className="w-4 h-4 rounded-sm bg-zinc-700 flex items-center justify-center overflow-hidden">
-                          <img 
-                            src={`https://www.google.com/s2/favicons?domain=${new URL(source.url).hostname}&sz=32`} 
-                            alt="" 
-                            className="w-3 h-3"
-                            onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'block'; }}
-                          />
-                          <Globe className="w-3 h-3 hidden" />
-                        </div>
-                        <span>{new URL(source.url).hostname.replace('www.', '')}</span>
-                      </a>
-                    ))}
-                  </div>
-                )}
-
                 {isLoading && (
                   <span 
                     className="inline-block w-1 h-6 ml-1 animate-pulse" 

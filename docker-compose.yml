@@ -6,13 +6,24 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - YANDEX_API_KEY=
-      - YANDEX_FOLDER_ID=
-      - XMLRIVER_USER_ID=
-      - XMLRIVER_KEY=
+      - YANDEX_API_KEY=${YANDEX_API_KEY}
+      - YANDEX_FOLDER_ID=${YANDEX_FOLDER_ID}
+      - XMLRIVER_USER_ID=${XMLRIVER_USER_ID}
+      - XMLRIVER_KEY=${XMLRIVER_KEY}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
 
     volumes:
       - ./backend:/app
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7-alpine
+    container_name: yandex-rag-redis
+    restart: always
+    ports:
+      - "6379:6379"
 
   frontend:
     build: ./frontend

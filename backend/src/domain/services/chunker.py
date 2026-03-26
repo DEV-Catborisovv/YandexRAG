@@ -3,9 +3,9 @@ from typing import List
 from src.core.constants import DefaultConfigs
 
 class Chunker:
-    def __init__(self, chunk_size: int = DefaultConfigs.CHUNK_SIZE, overlap: int = DefaultConfigs.CHUNK_OVERLAP) -> None:
-        self.chunk_size = chunk_size
-        self.overlap = overlap
+    def __init__(self, chunk_size: int = None, overlap: int = None) -> None:
+        self.chunk_size = chunk_size or DefaultConfigs.CHUNK_SIZE
+        self.overlap = overlap or DefaultConfigs.CHUNK_OVERLAP
 
     def split(self, text: str) -> List[str]:
         if not text:

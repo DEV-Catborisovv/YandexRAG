@@ -1,0 +1,3 @@
+{
+    "WINNER_SELECTION": "Task: Select 15 best sources to match Yandex Alice (80% similarity).\n1. Priority Domains (MANDATORY): Wikipedia RU, RBC, Dzen, AIF, Tproger, Habr, Sber, VC.ru, TASS, IXBT, Cyberleninka, Vedomosti, Kommersant.\n2. Language: If query is RU, strictly prefer Russian sites over global variants.\n3. Content: Favor sources with technical depth, dates, and official Russian status.\n4. Diversity: Select unique top-tier domains first."
+}

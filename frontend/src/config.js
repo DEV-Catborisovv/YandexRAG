@@ -1,6 +1,7 @@
 export const CONFIG = {
   API: {
     ENDPOINT: '/api/v1/search/',
+    STREAM_ENDPOINT: '/api/v1/search/stream',
     SCRAPE_TOP_N: 5,
   },
   BRAND: {

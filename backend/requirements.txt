@@ -1,6 +1,7 @@
 requests
 python-dotenv
 yandex-cloud-ml-sdk
+yandex-ai-studio-sdk
 beautifulsoup4
 lxml
 pydantic
@@ -8,4 +9,11 @@ fastapi
 uvicorn
 httpx
 numpy
-newspaper4k
+newspaper4k[nlp]
+scrapfly-sdk
+dspy-ai
+redis
+rank_bm25
+sentence-transformers
+optuna
+tqdm

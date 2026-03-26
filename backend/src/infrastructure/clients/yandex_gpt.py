@@ -1,14 +1,18 @@
 import asyncio
 import logging
+import json
 from typing import Optional, Any, List, Dict, Tuple
 from yandex_cloud_ml_sdk import YCloudML
+from src.infrastructure.clients.limiter import RateLimiter
 from src.domain.exceptions import ExternalAPIException
-from src.core.constants import YandexModelNames
+from src.core.constants import YandexModelNames, DefaultConfigs
 from src.core import prompts
 from src.domain.models import SearchResult
 
 # чтоб логи были
 logger = logging.getLogger(__name__)
+
+from src.infrastructure.clients.cache import cache
 
 class YandexGPTClient:
     def __init__(self, folder_id: str, api_key: str, model_name: str = YandexModelNames.GPT_LITE.value):
@@ -18,7 +22,13 @@ class YandexGPTClient:
         self.sdk = YCloudML(folder_id=folder_id, auth=api_key)
 
     async def generate_answer(self, prompt: str, system_prompt: Optional[str] = None) -> str:
-        # тут ретраи если яндекс прилетел с ошибкой
+        # Check cache first
+        cache_key = f"{prompt}:{system_prompt or ''}:{self.model_name}"
+        cached_res = cache.get("gpt", cache_key)
+        if cached_res:
+            logger.info("Using cached GPT response")
+            return cached_res
+
         model = self.sdk.models.completions(self.model_name)
         
         max_retries = 3
@@ -27,10 +37,21 @@ class YandexGPTClient:
         for attempt in range(max_retries):
             try:
                 loop = asyncio.get_running_loop()
-                result = await loop.run_in_executor(None, lambda: model.run(prompt))
+                messages = []
+                if system_prompt:
+                    messages.append({"role": "system", "text": system_prompt})
+                messages.append({"role": "user", "text": prompt[:120000]})
+
+                result = await RateLimiter.run(loop.run_in_executor(
+                    None, 
+                    lambda: model.run(messages)
+                ))
                 
                 if hasattr(result, "alternatives") and result.alternatives:
-                    return str(result.alternatives[0].text)
+                    answer = str(result.alternatives[0].text)
+                    # Cache the result for 24 hours
+                    cache.set("gpt", cache_key, answer, ttl=86400)
+                    return answer
                 
                 last_error = "Invalid response structure"
             except Exception as e:
@@ -43,9 +64,54 @@ class YandexGPTClient:
                 
         raise ExternalAPIException("YandexGPT", 500, f"Error: {last_error}")
 
-    async def score_passage(self, query: str, passage: str) -> int:
-        # оцениваем насколько кусок подходит под запрос
-        prompt = prompts.RELEVANCE_SCORE.format(query=query, passage=passage)
+    async def generate_answer_stream(self, prompt: str, system_prompt: Optional[str] = None):
+        """Streaming version of generate_answer."""
+        # Caching is tricky for streaming, usually disabled or cached after full gen
+        model = self.sdk.models.completions(self.model_name)
+        
+        messages = []
+        if system_prompt:
+            messages.append({"role": "system", "text": system_prompt})
+        messages.append({"role": "user", "text": prompt[:120000]})
+
+        # In Yandex Cloud ML SDK, streaming is typically done via .run_stream or .stream
+        # We'll use the executor to handle the synchronous stream iterator
+        loop = asyncio.get_running_loop()
+        
+        def get_stream():
+            # Assuming the SDK model has a stream method
+            return model.run_stream(messages) if hasattr(model, 'run_stream') else model.run(messages, stream=True)
+
+        try:
+            stream = await loop.run_in_executor(None, get_stream)
+            full_response = []
+            
+            for chunk in stream:
+                if hasattr(chunk, "alternatives") and chunk.alternatives:
+                    text = chunk.alternatives[0].text
+                    # The SDK sometimes returns the full text accumulated, or delta
+                    # Usually it's accumulated in some SDKs, but let's assume delta for streaming
+                    # If it's accumulated, we'd need to track the last sent length
+                    yield text
+                    full_response.append(text)
+            
+            # Optionally cache the full result after streaming finishes
+            # cache.set("gpt", f"{prompt}:{system_prompt or ''}", "".join(full_response), ttl=86400)
+            
+        except Exception as e:
+            logger.error(f"Streaming failed: {e}")
+            # Fallback to non-streaming if needed, or just yield the error
+            yield f"Error during streaming: {e}"
+
+    async def score_passage(self, query: str, passage: str, title: str = "", url: str = "", metadata: Dict[str, Any] = None) -> int:
+        # оцениваем насколько кусок подходит под запрос + смотрим на авторитетность (JEPA)
+        prompt = prompts.AUTHORITY_JUDGE_SCORE.format(
+            query=query, 
+            passage=passage,
+            title=title,
+            url=url,
+            metadata=json.dumps(metadata or {}, ensure_ascii=False)
+        )
         try:
             response = await self.generate_answer(prompt)
             import re
@@ -57,17 +123,21 @@ class YandexGPTClient:
         except Exception:
             return -1
 
-    async def select_winners(self, query: str, candidates: List[SearchResult]) -> List[SearchResult]:
+    async def select_winners(self, query: str, candidates: List[SearchResult], custom_prompt: Optional[str] = None) -> List[SearchResult]:
         # выбираем 5 самых норм сорсов
         if not candidates:
             return []
 
         formatted_candidates = "\n".join([
-            f"[{i}] Title: {c.title}\nSnippet: {c.snippet}" 
+            f"[{i}] {c.title} ({c.url})\nPreview: {c.snippet[:400]}..." 
             for i, c in enumerate(candidates)
         ])
 
-        prompt = prompts.WINNER_SELECTION.format(query=query, candidates=formatted_candidates)
+        if custom_prompt:
+            # Используем оптимизированный промпт из DSPy
+            prompt = custom_prompt.format(query=query, candidates=formatted_candidates)
+        else:
+            prompt = prompts.WINNER_SELECTION.format(query=query, candidates=formatted_candidates)
 
         try:
             response = await self.generate_answer(prompt)
@@ -80,13 +150,13 @@ class YandexGPTClient:
                 if 0 <= idx < len(candidates) and idx not in seen_indices:
                     winners.append(candidates[idx])
                     seen_indices.add(idx)
-                    if len(winners) >= 5:
+                    if len(winners) >= DefaultConfigs.TOP_K_CHUNKS:
                         break
             
-            return winners if winners else candidates[:5]
+            return winners if winners else candidates[:DefaultConfigs.TOP_K_CHUNKS]
         except Exception:
             logger.warning("winner choice failed")
-            return candidates[:5]
+            return candidates[:DefaultConfigs.TOP_K_CHUNKS]
 
     async def rephrase_query(self, query: str, history: List[Dict[str, str]]) -> str:
         # переделываем вопрос шоб поиск лучше отработал

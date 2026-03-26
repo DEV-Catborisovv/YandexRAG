@@ -15,6 +15,9 @@ class Config:
     
     XMLRIVER_USER_ID = os.getenv("XMLRIVER_USER_ID")
     XMLRIVER_KEY = os.getenv("XMLRIVER_KEY")
+    SCRAPFLY_API_KEY = os.getenv("SCRAPFLY_API_KEY")
+    REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
+    REDIS_PORT = int(os.getenv("REDIS_PORT", 6379))
 
 
     @classmethod

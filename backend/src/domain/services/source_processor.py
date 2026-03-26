@@ -27,8 +27,8 @@ class SourceProcessor:
             return document
             
         words_count = len(document.snippet.split())
-        # если документ и так мелкий, сразу возвращаем
-        if words_count <= self.max_tokens and words_count < 500:
+        # если документ и так мелкий, сразу возвращаем (до 500 слов)
+        if words_count <= 500:
             return document
 
         # 1. нарезаем на чанки
@@ -39,7 +39,8 @@ class SourceProcessor:
             SearchResult(
                 title=document.title, 
                 url=document.url, 
-                snippet=chunk
+                snippet=chunk,
+                metadata=document.metadata
             ) for chunk in chunks
         ]
         

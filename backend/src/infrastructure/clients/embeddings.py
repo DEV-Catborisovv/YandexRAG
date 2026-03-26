@@ -3,6 +3,7 @@ import asyncio
 import logging
 from typing import List, Any
 from yandex_cloud_ml_sdk import YCloudML
+from src.infrastructure.clients.limiter import RateLimiter
 from src.domain.exceptions import ExternalAPIException
 from src.core.constants import YandexModelNames
 
@@ -33,8 +34,9 @@ class YandexEmbeddingsClient:
                 safe_text = " ".join(text.split()[:500])[:2000]
                 
                 try:
-                    # Run synchronously but keep it clean
-                    result = model.run(safe_text)
+                    # Run with rate limiting
+                    loop = asyncio.get_running_loop()
+                    result = await RateLimiter.run(loop.run_in_executor(None, lambda: model.run(safe_text)))
                     
                     emb: List[float] = []
                     if hasattr(result, "embedding"):

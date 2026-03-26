@@ -1,6 +1,6 @@
 from __future__ import annotations
 from pydantic import BaseModel, Field, field_validator
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, Any
 from src.core.constants import DefaultConfigs
 
 # модельки данных
@@ -10,8 +10,9 @@ class SearchResult(BaseModel):
     url: str = Field(...)
     snippet: str = Field(...)
     score: Optional[float] = Field(None)
+    metadata: Dict[str, Any] = Field(default_factory=dict)
 
-    @field_validator("title", "snippet")
+    @field_validator("title")
     @classmethod
     def not_empty(cls, v: str) -> str:
         if not v.strip():
@@ -23,6 +24,7 @@ class SearchQuery(BaseModel):
     query: str = Field(...)
     history: List[Dict[str, str]] = Field(default_factory=list)
     scrape_top_n: int = Field(default=DefaultConfigs.SCRAPE_TOP_N, ge=0, le=20)
+    mode: str = Field(default="neyro") # neyro or alice
 
 
 class RAGResponse(BaseModel):
