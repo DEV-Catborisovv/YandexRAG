@@ -147,7 +147,7 @@ def optimize(test_mode=False):
     program = RAGModule(service, lm=lm)
 
     # 3. Load Dataset (Gold Data)
-    with open("scripts/gold_data.json", "r", encoding="utf-8") as f:
+    with open("backend/scripts/gold_data.json", "r", encoding="utf-8") as f:
         gold_data = json.load(f)
     
     trainset = [

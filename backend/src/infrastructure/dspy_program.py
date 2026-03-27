@@ -6,7 +6,7 @@ from src.domain.models import SearchQuery
 
 class WinnerSelectionSignature(dspy.Signature):
     """
-    Task: Select exactly 5 best unique sources from the list.
+    Task: Select the best unique sources from the list that are most relevant to the query.
     Criteria:
     1. Relevance: The source must directly address the specific search query.
     2. Authority: Prefer official business sites, government portals, or trusted aggregators (Maps, 2GIS, etc.).
@@ -16,7 +16,7 @@ class WinnerSelectionSignature(dspy.Signature):
     query = dspy.InputField()
     candidates = dspy.InputField(desc="Numbered list containing candidate Title, URL, and a Snippet of content.")
     thought = dspy.OutputField(desc="Reasoning about the relevance and authority of the candidates.")
-    winner_indices = dspy.OutputField(desc="Comma-separated list of exactly 5 indices of the best sources (e.g. 0, 3, 1, 7, 2)")
+    winner_indices = dspy.OutputField(desc="Comma-separated list of indices of the best sources (e.g. 0, 3, 1, 7, 2, 5)")
 
 class RAGModule(dspy.Module):
     def __init__(self, rag_service: RAGService, lm=None):

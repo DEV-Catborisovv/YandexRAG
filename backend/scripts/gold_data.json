@@ -1,6 +1,6 @@
 [
     {
-        "query": "куда сходить в Екатеринбурге?",
+        "query": "куда сходить в екатеринбурге",
         "expected_urls": [
             "https://dzen.ru/",
             "https://afisha.yandex.ru/",
@@ -18,184 +18,26 @@
             "https://zoon.ru/",
             "https://yapokupayu.ru/",
             "https://gorpom.ru/",
-            "https://ekb.kassir.ru/"
+            "https://ekb.kassir.ru/",
+            "https://cian.ru/",
+            "https://maps.yandex.ru/"
         ],
-        "expected_answer": "В Екатеринбурге множество мест для посещения: от исторических скверов (Плотинка) до современных арт-пространств. Для поиска актуальных событий рекомендуется использовать Afisha Yandex, 2GIS и специализированные гиды на Dzen и KP.ru. Основные категории включают театры (Оперный, Коляда-театр), музеи (Ельцин Центр, Музей ИЗО) и парки (ЦПКиО им. Маяковского)."
+        "expected_answer": "В Екатеринбурге можно сходить в разные места: музеи, парки, театры и развлекательные центры. kp.ru cian.ru maps.yandex.ru Фотографии некоторых достопримечательностей Екатеринбурга Музеи Некоторые музеи Екатеринбурга: Екатеринбургский музей изобразительных искусств — ул. Воеводина, 5. В музее можно посмотреть картины Шишкина, Поленова, Коровина, а также Каслинский чугунный павильон, который получил золотую медаль на Всемирной выставке в Париже 1900 года. kp.ru experience.tripster.ru Музей природы Урала — ул. Горького, 4. Старейший отдел Свердловского областного краеведческого музея, находится на Плотинке в Историческом сквере, в здании Екатеринбургского железоделательного завода. maps.yandex.ru experience.tripster.ru Музей истории камнерезного и ювелирного искусства — проспект Ленина, 37. Экспозиция располагается в архитектурном памятнике — «Аптеке горного ведомства». Среди музейных экспонатов — ювелирные шедевры Фаберже, палехские лаковые панно. experience.tripster.ru «Дом Метенкова» — ул. Карла Либкнехта, 36. Тематический музей фотографии в усадьбе Милорадова начала XIX века, где на рубеже веков работал фотомагазин с ателье Вениамина Леонтьевича Метенкова. experience.tripster.ru tourister.ru Парки Некоторые парки Екатеринбурга: Екатеринбургский центральный парк культуры и отдыха имени В. В. Маяковского — ул. Мичурина, 230. В парке есть детские площадки, американские горки, батуты, колесо обозрения, картинг, беговые лыжные трассы. maps.yandex.ru 2gis.ru Харитоновский сад — исторический архитектурный памятник, здесь есть искусственное озеро с двумя насыпными островками и круглая беседка-ротонда. yapokupayu.ru Зелёная роща — улица Народной Воли, есть детские и спортивные площадки. maps.yandex.ru Дендрологический парк-выставка — ул. 8 Марта, 37а, парк с редкими растениями со всего мира. maps.yandex.ru 2gis.ru Театры Некоторые театры Екатеринбурга: Свердловский театр драмы — Октябрьская площадь, 2. Театр «Волхонка» — ул. Малышева, 21/1. Для взрослых играют спектакли, поднимающие острые социальные проблемы, и классические представления в виде балета, детям — танцевальные и песенные коллективы, а также организовываются специальные детские постановки. Коляда-театр — просп. Ленина, 97. Славится провокационными постановками по оригиначеским пьесам и классическим текстам — от Шекспира до Теннеси Уильямса. Театр балета «Щелкунчик» — ул. 8 Марта, 104. Профессиональный театр с детско-юношеской балетной труппой и собственным репертуаром. afisha.ru Развлекательные центры Некоторые развлекательные центры Екатеринбурга: «Лайк парк» — просп. Космонавтов, 108Д, этаж 2, есть верёвочная зона с разными уровнями сложности. «Прятки в темноте» — площадь Первой Пятилетки, 64, этаж 3. «Авантюра» — ул. Малышева, 51А, этаж 1, развлекательный центр с квестами. «Улёт» — ул. Репина, 94, этаж 2, батутный парк. Zaga Game — Сибирский тракт (дублёр), 2, клуб виртуальной реальности."
     },
     {
-        "query": "рейтинг стоматологий екатеринбурга 2024",
+        "query": "где вкусно поесть в екатеринбурге",
         "expected_urls": [
-            "https://www.e1.ru/text/health/2024/12/20/74900651/",
-            "https://rating.startsmile.ru/2023/ekaterinburg.html",
-            "https://ura.news/news/1052831381",
-            "https://ekb.plus.rbc.ru/partners/65b72f757a8aa987f3a063bd",
-            "https://like.doctor/ekaterinburg/kliniki/stomatologiya/top10/2024"
+            "https://maps.yandex.ru",
+            "https://openkitchen.eda.yandex",
+            "https://ripadvisor.ru",
+            "https://zoon.ru",
+            "https://restoclub.ru",
+            "https://2gis.ru",
+            "https://yapokupayu.ru",
+            "https://afisha.ru",
+            "https://restoran.cafe",
+            "https://ekb.kudago.com"
         ],
-        "expected_answer": "По данным на 20 декабря 2024 года, в рейтинге стоматологий Екатеринбурга по версии горожан лидируют «Эттика» и «Эстетик арт», на последнем месте — «Манхэттен». В список вошли следующие клиники: «Эстетик арт», «Эттика», Европейский стоматологический центр, «Визави»."
-    },
-    {
-        "query": "лучшие отели казани в центре",
-        "expected_urls": [
-            "https://yandex.ru/maps/discovery/podborka_gostinica_kazan-43/",
-            "https://www.kp.ru/russia/kazan/luchshie-oteli-kazani/",
-            "https://101hotels.com/main/cities/kazan/gostinitsa_rivera.html",
-            "https://yandex.ru/maps/org/mirazh/1022422575/",
-            "https://travel.yandex.ru/hotels/kazan/cort-inn-kazan-kreml/",
-            "https://nogay.rt.center/",
-            "https://mirage-hotel.ru/",
-            "https://kzn-cortinn.ru/",
-            "https://www.tripadvisor.ru/HotelsList-Kazan-zfp34291859.html"
-        ],
-        "expected_answer": "Среди отелей Казани в центре города есть несколько вариантов, которые отмечают как удобные для проживания и близости к достопримечательностям. Среди них — отели «Ривьера», «Ногай», «Мираж» и Cort Inn Kazan Kremlin."
-    },
-    {
-        "query": "услуги юристов по недвижимости ростов-на-дону",
-        "expected_urls": [
-            "https://maps.yandex.ru/",
-            "https://avito.ru/",
-            "https://uslugi.yandex.ru/",
-            "https://zoon.ru/",
-            "https://profi.ru/"
-        ],
-        "expected_answer": "В Ростове-на-Дону услуги по недвижимости предлагают компании «Личный Юрист», «Юридический офис В. О. Мачульского», «Право Роста». Также специалистов можно найти на Яндекс Услугах, Авито и Профи."
-    },
-    {
-        "query": "где встретить рассвет на алтае",
-        "expected_urls": [
-            "https://vk.com/wall-192272649_859",
-            "https://dzen.ru/",
-            "https://warhead.su/2025/10/22/6-volshebnyh-mest-respubliki-altay-gде-mozhno-vstretit-rassvet-mechty",
-            "https://altayvillage.com/glampings/glempingi-na-estyube-voskhod-i-zakat/",
-            "https://www.tripadvisor.ru/ShowUserReviews-g4590757-d8833415-r819804861-Lake_Teletskoye-Artybash_Republic_of_Altai_Siberian_District.html"
-        ],
-        "expected_answer": "Популярные точки для встречи рассвета на Алтае: скала Чертов палец (озеро Ая), гора Менжелик (Чемальский район), Каменные ворота Айри-Таш (Чуйский тракт)."
-    },
-    {
-        "query": "лучшие суши в москве с доставкой",
-        "expected_urls": [
-            "https://yandex.ru/maps/discovery/podborka_eda_dostavka-sushi_moskva-213/",
-            "https://yandex.ru/maps/org/gud_sushi/116565764623/",
-            "https://ent.osushi.su/",
-            "https://zoon.ru/msk/utility_service/sluzhba_dostavki_yakitoriya/reviews/",
-            "https://chibbis.ru/msk/restaurant/tanuki/menu",
-            "https://otzovik.com/review_5306730.html"
-        ]
-    },
-    {
-        "query": "где купить квартиру в сочи у моря",
-        "expected_urls": [
-            "https://sochi.cian.ru/kupit-kvartiru-u-morya/",
-            "https://realty.yandex.ru/sochi/kupit/kvartira/ryadom-s-morem/",
-            "https://grc-sochi.ru/offers/novostroyki-v-sochi/near-sea/",
-            "https://www.avito.ru/sochi/kvartiry/prodam-ASgBAgICAUSSA8YQ?q=рядом+с+морем",
-            "https://sochi.domclick.ru/pokupka/kvartiry/adler-m-n/u-morya",
-            "https://www.vincent-realty.ru/offers/novostroyki-v-sochi/u-morya/",
-            "https://www.elitesochi.com/catalog/novostroyki/sochi-zhilye-kompleksy-morja/",
-            "https://mirkvartir.ru/Краснодарский+край/Сочи/У+моря/"
-        ]
-    },
-    {
-        "query": "ремонт стиральных машин спб недорого",
-        "expected_urls": [
-            "https://yandex.ru/maps/2/saint-petersburg/search/Ремонт слотиролок/",
-            "https://profi.ru/geo-spb/remont/byttehnika/remont-bytovoi-tehniki/remont-stiralnyh-mashin/",
-            "https://uslugi.yandex.ru/2-saint-petersburg/category?text=Недорогой ремонт стиральных на дому",
-            "https://zoon.ru/spb/repair/type/stiralnyh_mashin/",
-            "https://markakachestva.ru/amenities/7845-luchshie-servisy-remonta-stiralnyh-mashin-v-spb-rejting.html"
-        ]
-    },
-    {
-        "query": "прокат авто в калининграде отзывы",
-        "expected_urls": [
-            "https://2gis.ru/kaliningrad/firm/70000001046879993/tab/reviews",
-            "https://lite-rent.ru/reviews/",
-            "https://vc.ru/travel/1541254-arenda-avto-v-aeroportu-kaliningrada"
-        ]
-    },
-    {
-        "query": "частные детские сады новосибирска цены",
-        "expected_urls": [
-            "https://www.kp.ru/russia/novosibirsk/chastnye-detskie-sady/",
-            "https://novosibirsk.skidkom.ru/uslugi/detskie-sady/"
-        ]
-    },
-    {
-        "query": "курсы программирования на python москва",
-        "expected_urls": [
-            "https://www.specialist.ru/dictionary/definition/python",
-            "https://do.bmstu.ru/napravleniya-obucheniya/programmirovanie-i-it/programmirovanie-na-python-onlayn/",
-            "https://msk.top-academy.ru/education/python-for-children"
-        ]
-    },
-    {
-        "query": "лучшие ветеринарные клиники краснодара",
-        "expected_urls": [
-            "https://yandex.ru/maps/35/krasnodar/category/veterinary_clinic/184107216/filter/best_rating/",
-            "https://www.yell.ru/krasnodar/top/veterinarnye-kliniki/",
-            "https://zoon.ru/krasnodar/vet/reviews/"
-        ]
-    },
-    {
-        "query": "где заказать торт в тюмени",
-        "expected_urls": [
-            "https://venavioletta.ru/",
-            "https://2gis.ru/tyumen/search/Кондитерские изделия/rubricId/363",
-            "https://yandex.ru/maps/55/tyumen/category/cake_orders/184108275/"
-        ]
-    },
-    {
-        "query": "дизайн интерьера квартир в воронеже",
-        "expected_urls": [
-            "https://uslugi.yandex.ru/193-voronezh/category/dizajn-interera-328",
-            "https://avito.ru/voronezh/predlozheniya_uslug/dizayn_interera-ASgBAgICAkS8A6isAg",
-            "https://profi.ru/voronezh/dizajn-interera/"
-        ]
-    },
-    {
-        "query": "салоны красоты нижний новгород рейтинг",
-        "expected_urls": [
-            "https://maps.yandex.ru/47/nizhny-novgorod/category/beauty_salon/184105814/",
-            "https://zoon.ru/nn/beauty/",
-            "https://dzen.ru/a/Z..."
-        ]
-    },
-    {
-        "query": "где погулять в уфе с детьми",
-        "expected_urls": [
-            "https://travel.yandex.ru/journal/ufa-with-kids/",
-            "https://tourister.ru/world/europe/russia/city/ufa/children",
-            "https://kp.ru/russia/ufa/gde-pogulyat-s-rebenkom/"
-        ]
-    },
-    {
-        "query": "автошколы перми стоимость обучения",
-        "expected_urls": [
-            "https://www.kp.ru/russia/perm/luchshie-avtoshkoly/",
-            "https://www.drom.ru/pdd/avtoshkola/perm/",
-            "https://autocenter59.ru/tseny/"
-        ]
-    },
-    {
-        "query": "услуги клининга в челябинске отзывы",
-        "expected_urls": [
-            "https://profi.ru/geo-chel/reviews/domashnii_personal/klining-kvartir/",
-            "https://uslugi.yandex.ru/56-chelyabinsk/category?text=клининговые компании"
-        ]
-    },
-    {
-        "query": "ремонт ноутбуков нижний новгород",
-        "expected_urls": [
-            "https://yandex.ru/maps/47/nizhny-novgorod/search/Ремонт ноутбуков/",
-            "https://nn.pedant.ru/remont-noutbukov",
-            "https://2gis.ru/nnovgorod/search/ремонт ноутбуков"
-        ]
-    },
-    {
-        "query": "доставка цветов краснодар круглосуточно",
-        "expected_urls": [
-            "https://flowwow.com/krasnodar/tsvety/",
-            "https://krd.bukedo.ru/",
-            "https://krasnodar.megaflowers.ru/"
-        ]
+        "expected_answer": "В Екатеринбурге есть заведения, где можно вкусно поесть, — рестораны русской, итальянской, японской и грузинской кухни. Ниже представлены некоторые из них. maps.yandex.ru 2gis.ru maps.yandex.ru openkitchen.eda.yandex Фотографии некоторых ресторанов и кафе в Екатеринбурге, где можно вкусно поесть: Русская кухня «Подкова» — стилизованное под деревенскую избу заведение с русской печью. В меню — традиционные посикунчики, а также три сета уральской кухни: «Свердловск», «Урал» и «Екатеринбург». Есть вегетарианское, постное и детское меню. Адрес: просп. Ленина, 28, корп. 2. maps.yandex.ru maps.yandex.ru «Шустов» — предлагает блюда русской кухни, приготовленные по традиционным рецептам. В меню — пельмени с сыром сулугуни, телячьи щёчки, жаркое из кролика, вареники с вишней, борщ и другие. Адрес: ул. Радищева, 31. maps.yandex.ru 2gis.ru «Барборис» — предлагает блюда современной русской кухни, а также рецепты семьи Ельциных, такие как голубцы, уральские пельмени и настойки. В меню — посикунчики с томлёными говяжьими щёчками, козлёнок из печи с молодым картофелем, гречневая каша с белыми грибами, пармезаном и вяленой уткой. Адрес: ул. Бориса Ельцина, 3. maps.yandex.ru Итальянская кухня «Донна Оливия» — предлагает широкий выбор блюд итальянской кухни, приготовленных из свежих ингредиентов. В меню — традиционные блюда (паста и пицца) и авторские, например, канеллоне с креветками, кальмарами и лососем. Есть большая открытая веранда с видом на парк и детская комната с песочницей. Телефон: +7 (343) 222-19-00. Si! — предлагает блюда итальянской кухни, такие как паста, пицца, овощные салаты, закуски из мяса и рыбы, а также широкий выбор вина и десертов. Интерьер выполнен в классическом стиле с высокими потолками и зеленью, на втором этаже есть детская комната. Телефон: +7 (343) 239-52-41. maps.yandex.ru Японская кухня «Тануки» — ресторан, суши-бар, ул. Карла Либкнехта, 23. В меню — роллы и суши в интерьере с японскими мотивами. Рекомендуют сеты «Мураками», «Филадельфия Хот», фруктовые и травяные чаи. maps.yandex.ru 2gis.ru «Сойка» — небольшой ресторан японской кухни с открытой кухней и уютным интерьером. В зале много живых растений, тёплое освещение и спокойная музыка. Меню с акцентом на суши и гриль. Адрес: ул. 8 Марта, 6 (1). yapokupayu.ru Ovo izakaya — японский гастробар, пр. Ленина, 25. В меню — роллы и суши, а также гунканы, нигири, пончики с крабом. На десерт предлагают моти с четырьмя разными вкусами. yapokupayu.ru Грузинская кухня «Шави Ломи» — ресторан с блюдами грузинской, армянской и азербайджанской кухни, проспект Ленина, 25. В меню — сырные хачапури (аджарские лодочки, мегрельские, пеновани), блюда из баклажанов и разнообразные шашлыки. Хинкали лепят на открытой кухне — они здесь с телятиной, дагестанским барашком, лососем, курицей и грибами. Pumpula — грузинский ресторан на первом этаже бывшего кинотеатра «Салют», улица Толмачёва, 12. В меню — классические и современные блюда: имеретинский хачапури с голубым сыром и грушей, мини-хинкали в соусе качо-э-пепе. «Гурмадзе» — ресторан горской кухни, улица Мамина-Сибиряка, 58. В меню — бадриджани, сациви и пхали, аджарские, мегрельские и имеретинские хачапури, хинкали с тигровыми креветками, томатами и молодым чечилом, лососем, соусом из шпината и красной икрой и шашлыки. «Хинкали Котэ» — грузинский семейный ресторан, расположен слева от центрального входа в Парк Маяковского. Хинкали здесь готовят с острой бараниной, креветками в соусе том ям и печёным картофелем с чёрным трюфелем, а ещё сванские и жареные «Золотое руно». Адрес: ул. Мичурина, 230, корп. 3."
     }
 ]

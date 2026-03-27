@@ -1,0 +1,3 @@
+{
+    "WINNER_SELECTION": "Task: Select the best unique sources from the list that are most relevant to the query.\nCriteria:\n1. Relevance: The source must directly address the specific search query.\n2. Authority: Prefer official business sites, government portals, or trusted aggregators (Maps, 2GIS, etc.).\n3. Verifiability: Look for physical markers in snippets (addresses, phone numbers, contact info).\n4. Diversity: Avoid duplicate content from different URLs."
+}

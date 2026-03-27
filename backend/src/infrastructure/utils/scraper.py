@@ -54,15 +54,15 @@ async def _scrape_scrapfly(url: str) -> str:
         "country": "ru" # Важно для Авито/Яндекса
     }
 
-    max_retries = 3 # Increased retries
+    max_retries = 3 
     for attempt in range(max_retries):
         try:
-            async with httpx.AsyncClient(timeout=60.0) as client:
+            async with httpx.AsyncClient(timeout=45.0) as client:
                 response = await client.get("https://api.scrapfly.io/scrape", params=params)
 
                 if response.status_code == 429:
                     if attempt < max_retries - 1:
-                        wait_time = (attempt + 1) * 3 + random.uniform(0, 2)
+                        wait_time = (attempt + 1) * 2 + random.uniform(0, 1)
                         logger.warning(f"Scrapfly 429 (Too Many Requests), retrying in {wait_time:.1f}s...")
                         await asyncio.sleep(wait_time)
                         continue
@@ -71,21 +71,35 @@ async def _scrape_scrapfly(url: str) -> str:
                         return await _scrape_httpx(url)
 
                 if response.status_code == 422:
-                    logger.warning(f"Scrapfly 422 Error for {url}. Response: {response.text}")
-                    logger.info(f"Scrapfly: 422 error for {url}, retrying without proxy_pool/country")
-                    params.pop("proxy_pool", None)
-                    params.pop("country", None)
-                    response = await client.get("https://api.scrapfly.io/scrape", params=params)
+                    # 422 often means upstream timeout or block that won't be fixed by simple retry
+                    logger.warning(f"Scrapfly 422 (Upstream Error) for {url}. Attempting one-time retry without proxy/country.")
+                    if "proxy_pool" in params:
+                        params.pop("proxy_pool", None)
+                        params.pop("country", None)
+                        continue # Retry once without these params
+                    else:
+                        logger.error(f"Scrapfly 422 persistent for {url}. Switching to fallback.")
+                        return await _scrape_httpx(url)
 
                 response.raise_for_status()
 
                 data = response.json()
-                content = data.get("result", {}).get("content", "")
+                result = data.get("result", {})
+                
+                # Check for success in the result object even if status is 200
+                if not result.get("success", False):
+                    error_msg = result.get("error", {}).get("message", "Unknown Scrapfly Error")
+                    logger.warning(f"Scrapfly reported failure for {url}: {error_msg}")
+                    if "UPSTREAM_TIMEOUT" in error_msg or "403" in error_msg:
+                         return await _scrape_httpx(url)
+                    continue
+
+                content = result.get("content", "")
                 logger.info(f"Scrapfly: Received {len(content)} characters of HTML.")
 
-                if not content:
-                    logger.warning(f"Scrapfly: Empty content for {url}")
-                    return await _scrape_httpx(url) # Fallback if empty
+                if not content or len(content) < 200:
+                    logger.warning(f"Scrapfly: Insufficient content for {url}")
+                    return await _scrape_httpx(url)
 
                 soup = BeautifulSoup(content, "lxml")
                 for script in soup(["script", "style", "nav", "footer"]):
@@ -100,6 +114,7 @@ async def _scrape_scrapfly(url: str) -> str:
                 continue
             logger.error(f"Scrapfly failed for {url}: {e}. Switching to fallback.")
             return await _scrape_httpx(url)
+    return ""
     return ""
 
 async def scrape_page(url: str) -> Tuple[str, Dict[str, Any]]:

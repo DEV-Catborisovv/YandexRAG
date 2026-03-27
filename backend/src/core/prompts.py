@@ -57,7 +57,7 @@ AUTHORITY_JUDGE_SCORE = (
 WINNER_SELECTION = (
     "Question: {query}\n\n"
     "Candidates:\n{candidates}\n\n"
-    "Task: Select up to 15 best unique sources starting with the most authoritative for Yandex Alice.\n"
+    "Task: Select the best unique sources (usually 5-15, but can be more if highly relevant) starting with the most authoritative for Yandex Alice.\n"
     "Strict Priority (80% similarity goal with Yandex Search):\n"
     "1. Language Match: If query is in Russian, PRIORITIZE .ru, .рф, and Russian versions of .org/.com.\n"
     "2. Top Domains: Prefer Wikipedia (RU), RBC, Dzen, AIF, 2GIS, official Russian media.\n"

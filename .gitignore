@@ -20,3 +20,11 @@ dist/
 # OS
 .DS_Store
 Thumbs.db
+
+# Logs and Metrics
+*.log
+metrics_log.json
+optimization_pid.txt
+# We want to keep optimized configs
+!config/*.json
+!backend/config/*.json

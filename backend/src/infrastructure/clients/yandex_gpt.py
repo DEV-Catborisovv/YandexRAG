@@ -150,8 +150,6 @@ class YandexGPTClient:
                 if 0 <= idx < len(candidates) and idx not in seen_indices:
                     winners.append(candidates[idx])
                     seen_indices.add(idx)
-                    if len(winners) >= DefaultConfigs.TOP_K_CHUNKS:
-                        break
             
             return winners if winners else candidates[:DefaultConfigs.TOP_K_CHUNKS]
         except Exception:

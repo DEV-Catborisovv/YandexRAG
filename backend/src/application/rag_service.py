@@ -122,16 +122,40 @@ class RAGService:
 
     async def stream_ask(self, query_data: SearchQuery):
         """Streaming version of the RAG flow."""
-        # 0. Initial Status
-        yield json.dumps({"type": "status", "data": "Поиск источников..."}, ensure_ascii=False) + "\n"
         
-        # 1. Retrieval
-        winners = await self._retrieve(query_data)
+        async def status_cb(msg: str):
+            # We must yield from the outer generator, so we use a trick or a queue?
+            # Or just let _retrieve accept the queue. 
+            # Simplified: we use a queue to pass statuses back to the generator.
+            await status_queue.put(msg)
+
+        status_queue = asyncio.Queue()
+        
+        # 1. Start retrieval in a background task
+        async def run_retrieval():
+            try:
+                winners = await self._retrieve(query_data, status_callback=status_cb)
+                await status_queue.put(winners) # Pass the final result through the queue
+            except Exception as e:
+                logger.exception(f"Retrieval failed in stream_ask: {e}")
+                await status_queue.put([])
+
+        retrieval_task = asyncio.create_task(run_retrieval())
+
+        # 2. Yield statuses as they come
+        winners = []
+        while True:
+            item = await status_queue.get()
+            if isinstance(item, list):
+                winners = item
+                break
+            yield json.dumps({"type": "status", "data": item}, ensure_ascii=False) + "\n"
+
         if not winners:
-            yield json.dumps({"type": "token", "data": "Ничего не нашел, сорян."}, ensure_ascii=False) + "\n"
+            yield json.dumps({"type": "token", "data": "Ничего не нашел по вашему запросу."}, ensure_ascii=False) + "\n"
             return
 
-        yield json.dumps({"type": "status", "data": "Анализирую результаты..."}, ensure_ascii=False) + "\n"
+        yield json.dumps({"type": "status", "data": "Генерация ответа..."}, ensure_ascii=False) + "\n"
         context = self._format_context(winners)
         
         system_prompt = prompts.ALICE_SYSTEM if query_data.mode == "alice" else prompts.NEYRO_SYSTEM
@@ -156,7 +180,10 @@ class RAGService:
                 pass
         return {}
 
-    async def _retrieve(self, query_data: SearchQuery) -> List[SearchResult]:
+    async def _retrieve(self, query_data: SearchQuery, status_callback=None) -> List[SearchResult]:
+        if status_callback:
+            await status_callback("Генерация уточняющих запросов...")
+            
         # 0. Извлекаем регион
         region_code = 225
         if self.geo_service:
@@ -171,14 +198,20 @@ class RAGService:
         history_str = "\n".join(relevant_history)
         
         try:
-            mq_res = await self.generation_client.generate_answer(mq_prompt)
+            mq_res = await self.generation_client.generate_answer(
+                prompts.MULTI_QUERY_GENERATION.format(query=query_data.query, history=history_str)
+            )
             search_queries = re.findall(r'\d+\.\s*(.+)', mq_res)
             if not search_queries:
                 search_queries = [query_data.query]
             logger.info(f"generated sub-queries: {search_queries}")
-        except Exception:
+        except Exception as e:
+            logger.warning(f"Multi-query generation failed: {e}")
             search_queries = [query_data.query]
 
+        if status_callback:
+            await status_callback(f"Поиск в Яндекс ({len(search_queries)} запроса)...")
+            
         # идем в поиск параллельно
         search_tasks = [self.search_client.search(q, region=region_code) for q in search_queries]
         search_results_list = await asyncio.gather(*search_tasks)
@@ -223,20 +256,35 @@ class RAGService:
         results = all_results
 
         # скрапим страницы
+        if status_callback:
+            await status_callback(f"Загрузка контента ({min(query_data.scrape_top_n, len(results))} источников)...")
+
         semaphore = asyncio.Semaphore(10)
         async def sem_scrape(u):
             async with semaphore:
-                return await scrape_page(u)
+                try:
+                    return await asyncio.wait_for(scrape_page(u), timeout=30.0)
+                except Exception:
+                    return "", {}
 
         scrape_n = max(query_data.scrape_top_n, DefaultConfigs.SCRAPE_TOP_N)
         scrape_tasks = [sem_scrape(results[i]['url']) for i in range(min(scrape_n, len(results)))]
         
         try:
-            scraped_texts = await asyncio.wait_for(asyncio.gather(*scrape_tasks), timeout=120.0)
+            # We use a total timeout but also per-page timeout above
+            scraped_texts = await asyncio.wait_for(asyncio.gather(*scrape_tasks), timeout=90.0)
         except asyncio.TimeoutError:
-            logger.warning("Scraping phase timed out")
+            logger.warning("Scraping phase reached global timeout, using partial results")
+            # Note: gather with wait_for might raise TimeoutError for all if not小心
+            # But here we want to continue with whatever we got if possible.
+            # Actually, if TimeoutError is raised, we don't get partial results easily from gather.
+            # Let's use return_exceptions=True or similar if we wanted, 
+            # but per-page timeout in sem_scrape is already a good guard.
             scraped_texts = [] 
         
+        if status_callback:
+            await status_callback("Выполняю семантическое ранжирование...")
+
         all_chunks: List[SearchResult] = []
         for i, res in enumerate(results[:20]):
             content, meta = scraped_texts[i] if i < len(scraped_texts) else ("", {})
@@ -267,12 +315,15 @@ class RAGService:
                     candidate_passages.append(p)
                     seen_snippets.add(p.snippet)
         
+        if status_callback:
+            await status_callback("Выбираю лучшие источники...")
+
         # Финальный выбор победителей
         winner_prompt = self._load_prod_prompts().get("WINNER_SELECTION")
         winners = await self.generation_client.select_winners(
             query=query_data.query, candidates=candidate_passages[:25], custom_prompt=winner_prompt
         )
-        return winners[:DefaultConfigs.TOP_K_CHUNKS]
+        return winners
 
     async def _ask_internal(self, query_data: SearchQuery) -> RAGResponse:
         winners = await self._retrieve(query_data)

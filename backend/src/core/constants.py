@@ -25,7 +25,7 @@ class DefaultConfigs:
     MAX_TOKENS_PER_DOC = 800
     MAX_TOTAL_TOKENS = 4000
     
-    TOP_K_CHUNKS = 15
+    TOP_K_CHUNKS = 20
     SCRAPE_TOP_N = 15
     
     # минимальный порог для судьи
